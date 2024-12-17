@@ -9,10 +9,10 @@ HOST = 'localhost'
 HTTP_PORT = 8080
 WS_PORT = 8765
 
-# Web sitesi dosyalarının bulundugu dizin
+# Web sitesi dosyalarinin bulundugu dizin
 WEBSITE_DIR = "."
 
-# Cok is parcaciklı (multithreaded) HTTP Sunucusu
+# Cok is parcacikli (multithreaded) HTTP Sunucusu
 class ThreadedHTTPServer(HTTPServer):
     """Her HTTP isteğini ayrı bir iş parçacığında işleyen HTTP Sunucusu."""
     def process_request(self, request, client_address):
@@ -24,7 +24,7 @@ class ThreadedHTTPServer(HTTPServer):
         self.finish_request(request, client_address)
         self.shutdown_request(request)
 
-# WebSocket Sunucusunu çalıstırmak icin is parçacigi
+# WebSocket Sunucusunu çalistirmak icin is parcacigi
 class WebSocketServerThread(threading.Thread):
     def run(self):
         # WebSocket baglantilarini yoneten islev
@@ -35,9 +35,9 @@ class WebSocketServerThread(threading.Thread):
                 # Gelen mesajlari al ve diger istemcilere ilet
                 async for message in websocket:
                     print(f"Gelen mesaj: {message}")
-                    # Mesajı diğer tum baglı istemcilere ilet
+                    # Mesaji diğer tum bagli istemcilere ilet
                     for client in connected_clients:
-                        if client != websocket:  # Gönderen istemciye geri göndermemek için
+                        if client != websocket:  # Gönderen istemciye geri göndermemek icin
                             await client.send(f"Sunucu: {message}")
             except websockets.exceptions.ConnectionClosed:
                 print("WebSocket bağlantısı kapatıldı.")
@@ -49,7 +49,7 @@ class WebSocketServerThread(threading.Thread):
         async def start_websocket_server():
             print(f"WebSocket Sunucusu ws://{HOST}:{WS_PORT} adresinde çalışıyor.")
             async with websockets.serve(websocket_handler, HOST, WS_PORT):
-                await asyncio.Future()  # Sonsuza kadar çalıştırir
+                await asyncio.Future()  # Sonsuza kadar çaliştirir
 
         # Bagli istemciler için bir küme (set)
         connected_clients = set()
@@ -61,19 +61,19 @@ if __name__ == "__main__":
     # Web sitesi dizinini
     os.chdir(WEBSITE_DIR)
 
-    # HTTP sunucusunu bir iş parçacığında başlatiyor
+    # HTTP sunucusunu bir is parcaciginda baslatiyor
     http_server = ThreadedHTTPServer((HOST, HTTP_PORT), SimpleHTTPRequestHandler)
     http_thread = threading.Thread(target=http_server.serve_forever)
     http_thread.daemon = True
     http_thread.start()
     print(f"HTTP Sunucusu http://{HOST}:{HTTP_PORT} adresinde çalışıyor.")
 
-    # WebSocket sunucusunu bir iş parçaciginda baslatir
+    # WebSocket sunucusunu bir is parcaciginda baslatir
     ws_thread = WebSocketServerThread()
     ws_thread.daemon = True
     ws_thread.start()
 
-    # Ana iş parçaciğini canli tutar
+    # Ana is parcacigini canli tutar
     try:
         while True:
             pass
