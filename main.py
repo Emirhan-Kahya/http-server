@@ -14,7 +14,7 @@ WEBSITE_DIR = "."
 
 # Cok is parcaciklı (multithreaded) HTTP Sunucusu
 class ThreadedHTTPServer(HTTPServer):
-    """Her HTTP isteğini ayrı bir iş parçacığında işleyen HTTP Sunucusu."""
+    """Her HTTP istegini ayri bir iş parçaciginda isleyen HTTP Sunucusu."""
     def process_request(self, request, client_address):
         # İsteği ayri bir iş parçaciğinda isler
         threading.Thread(target=self.__handle_request, args=(request, client_address)).start()
@@ -24,12 +24,12 @@ class ThreadedHTTPServer(HTTPServer):
         self.finish_request(request, client_address)
         self.shutdown_request(request)
 
-# WebSocket Sunucusunu çalıstırmak icin is parçacigi
+# WebSocket Sunucusunu çalıstırmak icin is parcacigi
 class WebSocketServerThread(threading.Thread):
     def run(self):
         # WebSocket baglantilarini yoneten islev
         async def websocket_handler(websocket, path):
-            print("Yeni bir WebSocket bağlantısı kuruldu.")
+            print("Yeni bir WebSocket baglantisi kuruldu.")
             connected_clients.add(websocket)
             try:
                 # Gelen mesajlari al ve diger istemcilere ilet
@@ -40,14 +40,14 @@ class WebSocketServerThread(threading.Thread):
                         if client != websocket:  # Gönderen istemciye geri göndermemek için
                             await client.send(f"Sunucu: {message}")
             except websockets.exceptions.ConnectionClosed:
-                print("WebSocket bağlantısı kapatıldı.")
+                print("WebSocket bağlantisi kapatildi.")
             finally:
                 # İstemci baglantisini kaldirir
                 connected_clients.remove(websocket)
 
         # WebSocket sunucusunu baslatan islev
         async def start_websocket_server():
-            print(f"WebSocket Sunucusu ws://{HOST}:{WS_PORT} adresinde çalışıyor.")
+            print(f"WebSocket Sunucusu ws://{HOST}:{WS_PORT} adresinde çalisiyor.")
             async with websockets.serve(websocket_handler, HOST, WS_PORT):
                 await asyncio.Future()  # Sonsuza kadar çalıştırir
 
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     http_thread = threading.Thread(target=http_server.serve_forever)
     http_thread.daemon = True
     http_thread.start()
-    print(f"HTTP Sunucusu http://{HOST}:{HTTP_PORT} adresinde çalışıyor.")
+    print(f"HTTP Sunucusu http://{HOST}:{HTTP_PORT} adresinde çalisiyor.")
 
     # WebSocket sunucusunu bir iş parçaciginda baslatir
     ws_thread = WebSocketServerThread()
@@ -78,5 +78,5 @@ if __name__ == "__main__":
         while True:
             pass
     except KeyboardInterrupt:
-        print("\nSunucular kapatılıyor...")
+        print("\nSunucular kapatiliyor...")
         http_server.shutdown()

@@ -3,21 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Website</title>
+    <title>HTTP Basic Server</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>OS - HTTP BASIC SERVER</h1>
-    </header>
-    <main>
-        <p>Type a message to send to the server:</p>
-        <input type="text" id="messageInput" placeholder="Type your message here">
-        <button id="sendMessage">Send</button>
-        <div id="messages">
-            <h3>Messages:</h3>
-        </div>
-    </main>
+    <video class="background-video" autoplay muted loop>
+        <source src=".css bg/video.mp4" type="video/mp4"> <!-- Videonun yolu -->
+        Tarayıcınız video etiketini desteklemiyor.
+    </video>
+
+    <div class="container">
+        <header>
+            <h1>🖥️ OS - HTTP BASIC SERVER</h1>
+        </header>
+
+        <main>
+            <section class="input-section">
+                <p>Type a message to send to the server:</p>
+                <div class="input-container">
+                    <input type="text" id="inputMessage" placeholder="Type your message here">
+                    <button id="sendMessage">Send</button>
+                </div>
+            </section>
+            
+                <section class="messages-section">
+                    <h2 id="txtMessage">Messages:</h2>
+                    <!--<p class="status connected">✅ Connected to WebSocket server</p>-->
+                    <!--<p class="status disconnected">❌ Disconnected from WebSocket server</p>-->
+                </section>
+            </div>
+        </main>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
