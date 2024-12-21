@@ -1,82 +1,69 @@
-from http.server import SimpleHTTPRequestHandler, HTTPServer
 import asyncio
 import websockets
+from http.server import SimpleHTTPRequestHandler, HTTPServer
 import threading
-import os
 
-# Sunucunun calisacagi adres ve port bilgileri
+# HTTP Server for Serving index.html
 HOST = 'localhost'
 HTTP_PORT = 8080
 WS_PORT = 8765
 
-# Web sitesi dosyalarının bulundugu dizin
-WEBSITE_DIR = "."
+# HTTP Server Configuration
+class CustomHTTPRequestHandler(SimpleHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == '/':
+            self.path = 'index.html'
+        return super().do_GET()
 
-# Cok is parcaciklı (multithreaded) HTTP Sunucusu
-class ThreadedHTTPServer(HTTPServer):
-    """Her HTTP istegini ayri bir iş parçaciginda isleyen HTTP Sunucusu."""
-    def process_request(self, request, client_address):
-        # İsteği ayri bir iş parçaciğinda isler
-        threading.Thread(target=self.__handle_request, args=(request, client_address)).start()
+def run_http_server():
+    server_address = (HOST, HTTP_PORT)
+    httpd = HTTPServer(server_address, CustomHTTPRequestHandler)
+    print(f"HTTP Server running at http://{HOST}:{HTTP_PORT}")
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        print("\nShutting down HTTP server.")
+        httpd.server_close()
 
-    def __handle_request(self, request, client_address):
-        # İstegi tamamlar ve baglantiyi kapatir
-        self.finish_request(request, client_address)
-        self.shutdown_request(request)
+# WebSocket Server
+async def websocket_handler(websocket, path):
+    print(f"WebSocket connection established at path: {path}")
+    try:
+        async for message in websocket:
+            print(f"Received message: {message}")
+            response = f"Server received: {message}"
+            await websocket.send(response)
+    except websockets.ConnectionClosed as e:
+        print(f"WebSocket connection closed at path: {path} ({e})")
 
-# WebSocket Sunucusunu çalıstırmak icin is parcacigi
-class WebSocketServerThread(threading.Thread):
-    def run(self):
-        # WebSocket baglantilarini yoneten islev
-        async def websocket_handler(websocket, path):
-            print("Yeni bir WebSocket baglantisi kuruldu.")
-            connected_clients.add(websocket)
-            try:
-                # Gelen mesajlari al ve diger istemcilere ilet
-                async for message in websocket:
-                    print(f"Gelen mesaj: {message}")
-                    # Mesajı diğer tum baglı istemcilere ilet
-                    for client in connected_clients:
-                        if client != websocket:  # Gönderen istemciye geri göndermemek için
-                            await client.send(f"Sunucu: {message}")
-            except websockets.exceptions.ConnectionClosed:
-                print("WebSocket bağlantisi kapatildi.")
-            finally:
-                # İstemci baglantisini kaldirir
-                connected_clients.remove(websocket)
+def run_websocket_server():
+    async def start_server():
+        print(f"WebSocket Server running at ws://{HOST}:{WS_PORT}")
+        server = await websockets.serve(websocket_handler, HOST, WS_PORT)
+        await server.wait_closed()
 
-        # WebSocket sunucusunu baslatan islev
-        async def start_websocket_server():
-            print(f"WebSocket Sunucusu ws://{HOST}:{WS_PORT} adresinde çalisiyor.")
-            async with websockets.serve(websocket_handler, HOST, WS_PORT):
-                await asyncio.Future()  # Sonsuza kadar çalıştırir
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        loop.run_until_complete(start_server())
+    except KeyboardInterrupt:
+        print("\nShutting down WebSocket server.")
+    finally:
+        loop.close()
 
-        # Bagli istemciler için bir küme (set)
-        connected_clients = set()
-        # WebSocket sunucusunu başlatir
-        asyncio.run(start_websocket_server())
-
-# main 
-if __name__ == "__main__":
-    # Web sitesi dizinini
-    os.chdir(WEBSITE_DIR)
-
-    # HTTP sunucusunu bir iş parçacığında başlatiyor
-    http_server = ThreadedHTTPServer((HOST, HTTP_PORT), SimpleHTTPRequestHandler)
-    http_thread = threading.Thread(target=http_server.serve_forever)
-    http_thread.daemon = True
+# Main Execution
+if __name__ == '__main__':
+    # Start HTTP server in a thread
+    http_thread = threading.Thread(target=run_http_server, daemon=True)
     http_thread.start()
-    print(f"HTTP Sunucusu http://{HOST}:{HTTP_PORT} adresinde çalisiyor.")
 
-    # WebSocket sunucusunu bir iş parçaciginda baslatir
-    ws_thread = WebSocketServerThread()
-    ws_thread.daemon = True
-    ws_thread.start()
+    # Start WebSocket server in a thread
+    websocket_thread = threading.Thread(target=run_websocket_server, daemon=True)
+    websocket_thread.start()
 
-    # Ana iş parçaciğini canli tutar
+    # Keep main thread alive
     try:
         while True:
             pass
     except KeyboardInterrupt:
-        print("\nSunucular kapatiliyor...")
-        http_server.shutdown()
+        print("\nShutting down servers.")
