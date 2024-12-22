@@ -2,9 +2,14 @@ import asyncio
 from aiohttp import web
 import json
 import pathlib
+import threading
+from concurrent.futures import ThreadPoolExecutor
 
 # Global değişken
 connected_clients = set()
+
+# Global thread pool
+executor = ThreadPoolExecutor(max_workers=4)
 
 async def index_handler(request):
     return web.FileResponse('index.html')
@@ -19,15 +24,25 @@ async def websocket_handler(request):
     ws = web.WebSocketResponse(autoping=True)
     await ws.prepare(request)
     
-    print("WebSocket connection ready")
+    print(f"WebSocket connection ready on thread: {threading.current_thread().name}")
     connected_clients.add(ws)
     
     try:
         async for msg in ws:
             if msg.type == web.WSMsgType.TEXT:
-                print(f"Received message: {msg.data}")
+                # Ağır işlemleri thread pool'da çalıştır
+                def process_message(message):
+                    print(f"Processing message on thread: {threading.current_thread().name}")
+                    return message
+
+                result = await request.app.loop.run_in_executor(
+                    executor, 
+                    process_message, 
+                    msg.data
+                )
+                
                 for client in connected_clients:
-                    await client.send_str(msg.data)
+                    await client.send_str(result)
             elif msg.type == web.WSMsgType.ERROR:
                 print(f"WebSocket error: {ws.exception()}")
     finally:
