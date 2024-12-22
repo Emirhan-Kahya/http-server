@@ -1,110 +1,224 @@
-/* Genel Stil Ayarları */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
 }
 
 body {
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    text-align: center;
-    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    background: #16162a;
 }
 
-.background-video {
-    position: fixed; /* Video ekranın tamamını kapsar */
-    top: 0;
-    left: 0;
-    width: 100%; /* Ekranın genişliğini doldur */
-    height: 100%; /* Ekranın yüksekliğini doldur */
-    object-fit: cover; /* Video oranlarını koruyarak ekranı doldur */
-    z-index: -1; /* Videoyu içeriğin arkasına al */
-}
-
-
-.container {
-    background-color: #fff;
+.chat-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    background: white;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 640px;
-    padding: 20px;
-}
-
-/* Header */
-header h1 {
-    font-size: 30px;
-    color: #4a90e2;
-    margin-bottom: 20px;
-}
-
-/* Input Section */
-.input-section p {
-    font-size: 19px;
-    margin-bottom: 10px;
-}
-
-.input-container {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    height: calc(100vh - 40px);
     display: flex;
-    justify-content: center;
-    gap: 10px;
+    flex-direction: column;
+    background: #1a1a2e;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-input {
-    flex: 1;
-    padding: 8px 12px;
-    font-size: 14px;
-    border: 2px solid #4a90e2;
-    border-radius: 5px;
-    outline: none;
+.chat-header {
+    padding: 20px;
+    background: #1a1a2e;
+    color: white;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-input:focus {
-    border-color: #7b4397;
-}
-
-button {
-    padding: 8px 15px;
-    background-color: #4a90e2;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #7b4397;
-}
-
-/* Messages Section */
-.messages-section {
-    margin-top: 20px;
-}
-
-.messages-section h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: #7b4397;
-}
-
-.status {
-    font-size: 16px;
-    margin: 5px 0;
+#status {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .connected {
-    color: #27ae60;
-    font-weight: bold;
+    color: #fff;
 }
 
 .disconnected {
-    color: #e74c3c;
-    font-weight: bold;
+    color: #ff9999;
+}
+
+#messageContainer {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #2c2c3e;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.message {
+    max-width: 65%;
+    padding: 4px 15px;
+    margin: 1px 8px;
+    border-radius: 8px;
+    position: relative;
+    word-wrap: break-word;
+    min-width: 60px;
+}
+
+.received {
+    background: white;
+    color: black;
+    float: left;
+    border-top-left-radius: 4px;
+}
+
+.sent {
+    background: #3f3f5f;
+    color: #ffffff;
+    float: right;
+    border-top-right-radius: 4px;
+}
+
+.system {
+    background: rgba(0,0,0,0.2);
+    color: white;
+    text-align: center;
+    float: none;
+    margin: 10px auto;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    max-width: 40%;
+}
+
+.message-time {
+    font-size: 8px;
+    color: #8888a0;
+    position: absolute;
+    bottom: 2px;
+    right: 10px;
+    opacity: 0.8;
+}
+
+.clearfix {
+    clear: both;
+    height: 1px;
+}
+
+#messageForm {
+    display: flex;
+    padding: 20px;
+    background: #1a1a2e;
+    border-radius: 0 0 10px 10px;
+    gap: 10px;
+}
+
+#messageInput {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    font-size: 16px;
+    background: #2c2c3e;
+    color: #ffffff;
+}
+
+#messageInput::placeholder {
+    color: #8888a0;
+}
+
+button {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    border: none;
+    background: #3f3f5f;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #4f4f6f;
+}
+
+.message-content {
+    margin-bottom: 1px;
+    padding-right: 35px;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 20px auto;
+}
+
+.chat-container {
+    flex: 2;
+    max-width: none;
+    margin: 0;
+}
+
+.terminal {
+    flex: 1;
+    background: rgba(26, 26, 46, 0.8);
+    border-radius: 10px;
+    color: #fff;
+    font-family: monospace;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 40px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-header {
+    padding: 10px;
+    background: rgba(44, 44, 62, 0.8);
+    border-radius: 10px 10px 0 0;
+    font-size: 14px;
+}
+
+#serverLogs {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    font-size: 12px;
+}
+
+.log-entry {
+    margin: 5px 0;
+    color: rgba(136, 136, 160, 0.8);
+}
+
+.log-time {
+    color: rgba(102, 102, 128, 0.8);
+    margin-right: 8px;
+}
+
+/* Status göstergesi için stiller */
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-indicator.connected {
+    background-color: #4CAF50;
+    box-shadow: 0 0 5px #4CAF50;
+}
+
+.status-indicator.disconnected {
+    background-color: #c0392b;
+    box-shadow: 0 0 5px #c0392b;
+}
+
+/* Chat header içindeki h2'yi düzenle */
+.chat-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
 }

@@ -3,38 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTTP Basic Server</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Chat App</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <video class="background-video" autoplay muted loop>
-        <source src="bg.mp4" type="video/mp4"> <!-- Videonun yolu -->
-        Tarayıcınız video etiketini desteklemiyor.
-    </video>
-
     <div class="container">
-        <header>
-            <h1>🖥️ OS - HTTP BASIC SERVER</h1>
-        </header>
-
-        <main>
-            <section class="input-section">
-                <p>Type a message to send to the server:</p>
-                <div class="input-container">
-                    <input type="text" id="inputMessage" placeholder="Type your message here">
-                    <button id="sendMessage">Send</button>
-                </div>
-            </section>
-            
-                <section class="messages-section">
-                    <h2 id="txtMessage">Messages:</h2>
-                    <!--<p class="status connected">✅ Connected to WebSocket server</p>-->
-                    <!--<p class="status disconnected">❌ Disconnected from WebSocket server</p>-->
-                </section>
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2>Chat App <span id="status" class="status-indicator disconnected"></span></h2>
             </div>
-        </main>
+            <div id="messageContainer"></div>
+            <form id="messageForm">
+                <input type="text" id="messageInput" placeholder="Type a message...">
+                <button type="submit">➤</button>
+            </form>
+        </div>
+        <div class="terminal">
+            <div class="terminal-header">Server Messages</div>
+            <div id="serverLogs"></div>
+        </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
