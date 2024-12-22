@@ -35,7 +35,7 @@ async def websocket_handler(request):
                     print(f"Processing message on thread: {threading.current_thread().name}")
                     return message
 
-                result = await request.app.loop.run_in_executor(
+                result = await asyncio.get_running_loop().run_in_executor(
                     executor, 
                     process_message, 
                     msg.data
