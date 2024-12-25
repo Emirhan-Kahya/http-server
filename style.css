@@ -1,15 +1,18 @@
+/* Temel stil sıfırlama ve kutu modeli ayarı */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Sayfa gövdesi temel stilleri */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     height: 100vh;
     background: #16162a;
 }
 
+/* Chat konteyneri stilleri */
 .chat-container {
     max-width: 1000px;
     margin: 20px auto;
@@ -24,6 +27,7 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
+/* Chat başlığı stilleri */
 .chat-header {
     padding: 20px;
     background: #1a1a2e;
@@ -32,21 +36,26 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 70px;
 }
 
+/* Bağlantı durumu göstergesi */
 #status {
     display: inline-block;
     vertical-align: middle;
 }
 
+/* Bağlı durumu */
 .connected {
     color: #fff;
 }
 
+/* Bağlantı kopuk durumu */
 .disconnected {
     color: #ff9999;
 }
 
+/* Mesaj konteyneri */
 #messageContainer {
     flex: 1;
     padding: 20px;
@@ -55,6 +64,7 @@ body {
     box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* Mesaj balonu temel stilleri */
 .message {
     max-width: 65%;
     padding: 4px 15px;
@@ -63,8 +73,10 @@ body {
     position: relative;
     word-wrap: break-word;
     min-width: 60px;
+    clear: both;
 }
 
+/* Alınan mesaj stilleri */
 .received {
     background: white;
     color: black;
@@ -72,13 +84,16 @@ body {
     border-top-left-radius: 4px;
 }
 
+/* Gönderilen mesaj stilleri */
 .sent {
     background: #3f3f5f;
     color: #ffffff;
     float: right;
     border-top-right-radius: 4px;
+    margin-left: auto;
 }
 
+/* Sistem mesajı stilleri */
 .system {
     background: rgba(0,0,0,0.2);
     color: white;
@@ -91,6 +106,7 @@ body {
     max-width: 40%;
 }
 
+/* Mesaj zaman bilgisi */
 .message-time {
     font-size: 8px;
     color: #8888a0;
@@ -100,11 +116,13 @@ body {
     opacity: 0.8;
 }
 
+/* Mesaj temizleme (float) */
 .clearfix {
     clear: both;
     height: 1px;
 }
 
+/* Mesaj gönderme formu */
 #messageForm {
     display: flex;
     padding: 20px;
@@ -113,6 +131,7 @@ body {
     gap: 10px;
 }
 
+/* Mesaj girişi */
 #messageInput {
     flex: 1;
     padding: 15px;
@@ -124,10 +143,12 @@ body {
     color: #ffffff;
 }
 
+/* Placeholder rengi */
 #messageInput::placeholder {
     color: #8888a0;
 }
 
+/* Buton temel stilleri */
 button {
     width: 50px;
     height: 50px;
@@ -139,15 +160,18 @@ button {
     transition: background 0.3s;
 }
 
+/* Buton hover efekti */
 button:hover {
     background: #4f4f6f;
 }
 
+/* Mesaj içeriği */
 .message-content {
     margin-bottom: 1px;
-    padding-right: 35px;
+    padding-right: 4px;
 }
 
+/* Ana konteyner */
 .container {
     display: flex;
     gap: 20px;
@@ -155,12 +179,7 @@ button:hover {
     margin: 20px auto;
 }
 
-.chat-container {
-    flex: 2;
-    max-width: none;
-    margin: 0;
-}
-
+/* Terminal bölümü */
 .terminal {
     flex: 1;
     background: rgba(26, 26, 46, 0.8);
@@ -173,31 +192,75 @@ button:hover {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
+/* Terminal başlığı */
 .terminal-header {
     padding: 10px;
     background: rgba(44, 44, 62, 0.8);
     border-radius: 10px 10px 0 0;
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
+/* Chat kullanıcı adı */
+#chatUsername {
+    font-size: 18px;
+    color: #ffffff;
+    margin: 0;
+}
+
+/* Server logları */
 #serverLogs {
     flex: 1;
-    padding: 10px;
+    padding: 15px;
     overflow-y: auto;
-    font-size: 12px;
+    font-size: 13px;
+    background: rgba(26, 26, 46, 0.3);
+    font-family: 'Courier New', monospace;
 }
 
+/* Log girişi */
 .log-entry {
-    margin: 5px 0;
-    color: rgba(136, 136, 160, 0.8);
+    margin: 4px 0;
+    color: #b4b4c7;
+    font-family: 'Courier New', monospace;
+    line-height: 1.5;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+    white-space: pre-wrap;
+    word-break: break-word;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
 }
 
+/* Log girişi hover efekti */
+.log-entry:hover {
+    background: rgba(44, 44, 62, 0.5);
+}
+
+/* Log zaman bilgisi */
 .log-time {
-    color: rgba(102, 102, 128, 0.8);
+    color: #8888a0;
     margin-right: 8px;
+    font-family: 'Courier New', monospace;
 }
 
-/* Status göstergesi için stiller */
+/* Thread bilgisi */
+.thread-info {
+    color: #00ff00;
+    font-weight: bold;
+    background: rgba(0, 255, 0, 0.1);
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin: 0 4px;
+    display: inline-block;
+    border: 1px solid rgba(0, 255, 0, 0.2);
+}
+
+/* Bağlantı durumu göstergesi */
 .status-indicator {
     width: 10px;
     height: 10px;
@@ -205,20 +268,177 @@ button:hover {
     display: inline-block;
 }
 
+/* Bağlı durumu göstergesi */
 .status-indicator.connected {
     background-color: #4CAF50;
     box-shadow: 0 0 5px #4CAF50;
 }
 
+/* Bağlantı kopuk durumu göstergesi */
 .status-indicator.disconnected {
     background-color: #c0392b;
     box-shadow: 0 0 5px #c0392b;
 }
 
-/* Chat header içindeki h2'yi düzenle */
-.chat-header h2 {
+/* Giriş/kayıt konteyneri */
+.auth-container {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 40px);
+}
+
+/* Giriş/kayıt formu */
+.auth-form {
+    background: #1a1a2e;
+    padding: 30px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Form başlığı */
+.auth-form h2 {
+    color: white;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Form input alanları */
+.auth-form input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #2c2c3e;
+    color: white;
+    font-size: 16px;
+}
+
+/* Form input placeholder */
+.auth-form input::placeholder {
+    color: #8888a0;
+}
+
+/* Form butonları */
+.auth-form button {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #3f3f5f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+/* Form buton hover efekti */
+.auth-form button:hover {
+    background: #4f4f6f;
+}
+
+/* Form metin */
+.auth-form p {
+    color: #8888a0;
+    text-align: center;
+}
+
+/* Form link */
+.auth-form a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+/* Form link hover efekti */
+.auth-form a:hover {
+    opacity: 0.8;
+}
+
+/* Çıkış butonu */
+.logout-btn {
+    padding: 8px 15px;
+    background: #2c2c3e;
+    color: #8888a0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    height: 35px;
+    min-width: 80px;
+}
+
+/* Çıkış butonu hover efekti */
+.logout-btn:hover {
+    background: #3f3f5f;
+    color: white;
+}
+
+/* Mesaj bilgi alanı */
+.message-info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 4px;
+    font-size: 10px;
+    color: #8888a0;
+}
+
+/* İşlemci bilgisi */
+.message-processor {
+    background: rgba(0, 255, 0, 0.1);
+    color: #00ff00;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    border: 1px solid rgba(0, 255, 0, 0.2);
+}
+
+/* Dosya önizleme alanı */
+.file-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* Önizleme öğesi */
+.preview-item {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* Önizleme resmi */
+.preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Dosya kaldırma butonu */
+.preview-item .remove-file {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin: 0;
+    justify-content: center;
+    cursor: pointer;
 }
